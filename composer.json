@@ -1,0 +1,32 @@
+{
+    "name": "enterdev/composer-medic",
+    "description": "Provides a simple and flexible way to patch Composer packages.",
+    "minimum-stability": "dev",
+    "license": "BSD-2-Clause",
+    "type": "composer-plugin",
+    "extra": {
+        "class": "enterdev\\Composer\\Medic"
+    },
+    "authors": [
+        {
+            "name": "Jevgenijs Vihnevics",
+            "email": "ev@enter.lv"
+        },
+        {
+            "name": "Cameron Eagans",
+            "email": "me@cweagans.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "composer-plugin-api": "^1.0"
+    },
+    "require-dev": {
+        "composer/composer": "~1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "enterdev\\Composer\\": "src"
+        }
+    }
+}

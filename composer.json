@@ -1,5 +1,4 @@
 {
-    "version": "1.0.1",
     "name": "enterdev/composer-medic",
     "description": "Provides a simple and flexible way to patch Composer packages.",
     "minimum-stability": "dev",

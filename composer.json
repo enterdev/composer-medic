@@ -1,4 +1,5 @@
 {
+    "version": "1.0.1",
     "name": "enterdev/composer-medic",
     "description": "Provides a simple and flexible way to patch Composer packages.",
     "minimum-stability": "dev",
@@ -18,7 +19,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=5.4.0",
         "composer-plugin-api": "^1.0"
     },
     "require-dev": {

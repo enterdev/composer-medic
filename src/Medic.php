@@ -148,6 +148,11 @@ class Medic implements PluginInterface, EventSubscriberInterface
                 {
                     /** @var Package $targetPackage */
                     $targetPackage      = $localRepository->findPackage($patch->targetPackage, '*');
+
+                    //We might be dealing with a non-vendor patch
+                    if (!$targetPackage)
+                        break;
+
                     $uninstallOperation = new UninstallOperation($targetPackage,
                         'Removing package so it can be re-installed and re-patched.');
                     $this->io->write('<info>Removing package ' . $targetPackage->getName() .
@@ -177,7 +182,6 @@ class Medic implements PluginInterface, EventSubscriberInterface
                     $patch->targetPackage . '</info>');
                 /** @var Package $targetPackage */
                 $targetPackage = $localRepository->findPackage($patch->targetPackage, '*');
-                $targetPath    = $installationManager->getInstallPath($targetPackage);
 
                 /** @var Package $sourcePackage */
                 $sourcePackage = $localRepository->findPackage($patch->sourcePackage, '*');
@@ -187,6 +191,21 @@ class Medic implements PluginInterface, EventSubscriberInterface
                     $sourcePath =
                         $installationManager->getInstaller($sourcePackage->getType())->getInstallPath($sourcePackage);
 
+                //We might be dealing with a non-vendor patch
+                if (!$targetPackage)
+                {
+                    //Check if targetpackage is an existing directory
+                    $targetPath = realpath($sourcePath . DIRECTORY_SEPARATOR . $patch->targetPackage);
+                    if (!is_dir($targetPath))
+                        throw new \Exception('Cannot apply patch ' . $patch->source .': Not a package and not a directory');
+
+                    $patch->apply($this, $targetPath, $sourcePath);
+                    $this->installedPatches[$patch->targetPackage][$patch->id] = $patch->hash;
+                    $this->saveInstalledPatches();
+                    break;
+                }
+
+                $targetPath    = $installationManager->getInstallPath($targetPackage);
                 $patch->apply($this, $targetPath, $sourcePath);
 
                 $this->installedPatches[$patch->targetPackage][$patch->id] = $patch->hash;

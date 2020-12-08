@@ -8,7 +8,7 @@ Composer plugin to install patches to vendor repositories
 ```
 "extra": {
     "medic": {
-        "<vendor/package>": {
+        "<vendor/package>|<path>": {
             "<path_to_patch.patch>": "<description of the patch>"
         }
     }
